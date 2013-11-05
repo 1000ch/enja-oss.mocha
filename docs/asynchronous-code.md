@@ -4,7 +4,7 @@
 
 Testing asynchronous code with Mocha could not be simpler! Simply invoke the callback when your test is complete. By adding a callback (usually named `done`) to `it()` Mocha will know that it should wait for completion.
 
-非同期で実行されるコードをMochaを使ってテストする場合は、シンプルにはできないでしょう。テストが完了語にコールバックを実行します。`it()`にコールバック（大体`done`と名前がつく）を加える事で、Mochaはその実行完了を待つことが出来ます。
+非同期で実行されるコードをMochaを使ってテストする場合は、シンプルにはできないでしょう。テストの完了時にコールバックを実行します。`it()`にコールバック（大体`done`と名前がつく）を加える事で、Mochaはその実行完了を待つことが出来ます。
 
     describe('User', function(){
       describe('#save()', function(){
