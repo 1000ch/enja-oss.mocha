@@ -1,15 +1,14 @@
 <h2 id="usage">mocha(1)</h2>
 
-
     Usage: mocha [debug] [options] [files]
-
+    
     Commands:
-
+    
       init <path>
       initialize a client-side mocha setup at <path>
-
+    
     Options:
-
+    
       -h, --help                      output usage information
       -V, --version                   output the version number
       -r, --require <name>            require the given module
@@ -34,57 +33,92 @@
       --reporters                     display available reporters
       --compilers <ext>:<module>,...  use the given module(s) to compile files
 
+    使い方: mocha [debug] [options] [files]
+    
+    コマンド:
+    
+      init <path>
+      <path>にMochaの初期設定を行います
+    
+    Options:
+    
+      -h, --help                      ヘルプを表示します
+      -V, --version                   Mochaのバージョンを出力します
+      -r, --require <name>            モジュールを指定します
+      -R, --reporter <name>           使うレポーターを指定します
+      -u, --ui <name>                 テストスタイルを指定します (bdd|tdd|exports)
+      -g, --grep <pattern>            <pattern>にマッチしたテストのみを実行します
+      -i, --invert                    `--grep`のマッチングの逆です
+      -t, --timeout <ms>              タイムアウトの時間をミリ秒で指定します [2000]
+      -s, --slow <ms>                 "slow"と判定する閾値をミリ秒で指定します [75]
+      -w, --watch                     ファイルの変更を監視します
+      -c, --colors                    カラー出力を有効にします
+      -C, --no-colors                 カラー出力を無効にします
+      -G, --growl                     growl通知を有効にします
+      -d, --debug                     nodeのデバッガーを有効にします `node --debug`と同義です
+      -b, --bail                      テストの最初の例外を捕捉します
+      -A, --async-only                全てのテストでコールバックをとるようにします (非同期)
+      --recursive                     サブディレクトリのテストも含むようにします
+      --debug-brk                     nodeのデバッガのブレークを有効にします
+      --globals <names>               許容するグローバル変数をカンマ区切りで指定します
+      --check-leaks                   グローバル変数のリークをチェックします
+      --interfaces                    利用可能なテストスタイルを表示します
+      --reporters                     利用可能なレポーターを表示します
+      --compilers <ext>:<module>,...  指定のモジュールでファイルをコンパイルします
+
 <h3 id="watch-option">-w, --watch</h3>
 
-  Executes tests on changes to JavaScript in the CWD, and once initially.
+  カレントディレクトリで1度実行するだけで、変更を検知しテストを再度実行します。
 
 <h3 id="compilers-option">--compilers</h3>
 
-  coffee-script is no longer supported out of the box. CS and similar transpilers
-  may be used by mapping the file extensions (for use with --watch) and the module
-  name. For example `--compilers coffee:coffee-script`.
+  CoffeeScriptのサポートはしていません。CoffeeScript、あるいはその他のコンパイルを必要とする
+  言語の場合には（`--watch`オプションと一緒に）その拡張子とコンパイラモジュールを指定します。
+  例えば、`--compilers coffee:coffee-script`のようにします。
 
 <h3 id="bail-option">-b, --bail</h3>
 
-  Only interested in the first exception? use `--bail` !
+  最初の例外のみを補足したい場合には、`--fail`を使ってください！
 
 <h3 id="debug-option">-d, --debug</h3>
 
-  Enables node's debugger support, this executes your script(s) with `node debug <file ...>` allowing you to step through code and break with the __debugger__ statement.
+  nodeのデバッガを有効にします。このオプションを有効にすることで`node debug <file ...>`が実行され、コードのステップ実行や、__debugger__ステートでのブレークを行うことができます。
 
 <h3 id="globals-option">--globals &lt;names&gt;</h3>
 
-  Accepts a comma-delimited list of accepted global variable names. For example suppose your app deliberately exposes a global named `app` and `YUI`, you may want to add `--globals app,YUI`.
+  許容するグローバル変数をカンマ区切りで指定します。例えばアプリケーションで`app`と`YUI`をグローバル変数に配置しているなら、`--globals app,YUI`とします。
 
 <h3 id="ignore-leaks-option">--check-leaks</h3>
 
-  By default Mocha will not check for global variables leaked while running tests, to enable this pass `--check-leaks`, to specify globals that are acceptable use `--globals`, for example `--globals jQuery,MyLib`.
+  テスト実行時のグローバル変数のリークチェックを有効にするには、`--check-leaks`を指定します。チェック対象としないグローバル変数は、`--globals jQuery,MyLib`といったように、`--globals`で指定してください。
 
 <h3 id="require-option">-r, --require &lt;name&gt;</h3>
 
-  The `--require` option is useful for libraries such as [should.js](http://github.com/visionmedia/should.js), so you may simply `--require should` instead of manually invoking `require('should')` within each test file. Note that this works well for `should` as it augments `Object.prototype`, however if you wish to access a module's exports you will have to require them, for example `var should = require('should')`.
+  `--require`オプションは[should.js](http://github.com/visionmedia/should.js)のようなライブラリを使うのに便利です。テストファイル毎にわざわざ`require('should')`と指定せずとも、`--require should`とするだけで指定することが出来ます。
+  これは`var should = require('should')`のようにmodule.exportにrequireしなければならない場合でも、有効です。
 
 <h3 id="ui-option">-u, --ui &lt;name&gt;</h3>
 
-  The `--ui` option lets you specify the interface to use, defaulting to "bdd".
+  テストインターフェースを指定します。デフォルトは`bdd`です。
 
 <h3 id="reporter-option">-R, --reporter &lt;name&gt;</h3>
 
-  The `--reporter` option allows you to specify the reporter that will be used, defaulting to "dot". This flag may also be used to utilize third-party reporters. For example if you `npm install mocha-lcov-reporter` you may then do `--reporter mocha-lcov-reporter`.
+  `--reporter`オプションで、テストレポーターを指定することが出来ます。デフォルトは`dot`です。これはサードパーティーのレポーターも指定することが出来ます。例えば`mocha-lcov-reporter`を使いたい場合は、`npm install mocha-lcov-reporter`を実行し`--reporter mocha-lcov-reporter`としてください。
 
 <h3 id="timeout-option">-t, --timeout &lt;ms&gt;</h3>
 
-  Specifies the test-case timeout, defaulting to 2 seconds. To override you may pass the timeout in milliseconds, or a value with the `s` suffix, ex: `--timeout 2s` or `--timeout 2000` would be equivalent.
+  テストのタイムアウトの時間を指定します。デフォルトは2秒です。ミリ秒か、`s`を付けることで、秒で指定することが可能です。例: `--timeout 2s` or `--timeout 2000`
 
 <h3 id="slow-option">-s, --slow &lt;ms&gt;</h3>
 
-  Specify the "slow" test threshold, defaulting to 75ms. Mocha uses this to highlight test-cases that are taking too long.
+  `slow`と判定する閾値を指定します。デフォルトは75ミリ秒です。Mochaではテストの実行が遅い場合にそれをハイライトで表示します。
 
 <h3 id="grep-option">-g, --grep &lt;pattern&gt;</h3>
 
-  The `--grep` option when specified will trigger mocha to only run tests matching the given `pattern` which is internally compiled to a `RegExp`.
+  `--grep`を指定することで、パターンにマッチしたテストのみを実行することが出来ます。`pattern`は内部的に`RegExp`にコンパイルされます。
 
-  Suppose for example you have "api" related tests, as well as "app" related tests, as shown in the following snippet; One could use `--grep api` or `--grep app` to run one or the other. The same goes for any other part of a suite or test-case title, `--grep users` would be valid as well, or even `--grep GET`.
+  例えば`api`や`app`に関連するテストだけを行いたい場合は、次のようにすると良いでしょう。;
+  どちらかを実行したい場合は`--grep api`か`--grep app`を指定します。同じようにスイートやテストケースのタイトルも指定することが可能で、`--grep users`や`--grep GET`のような指定も有効です。
 
     describe('api', function(){
       describe('GET /api/users', function(){
